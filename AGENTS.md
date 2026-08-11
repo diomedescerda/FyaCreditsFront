@@ -8,6 +8,7 @@ This repository contains the frontend for the credit-management technical test.
 - Mobile packaging: Capacitor
 - Primary Android deliverable: signed release `.apk`
 - Optional Android deliverable: `.aab` for store distribution
+- UI language: Spanish
 
 Keep frontend implementation in this repository. Backend implementation and infrastructure belong to their respective project repository.
 
@@ -24,10 +25,14 @@ Provide a registration form with the following fields:
 - Credit amount
 - Interest rate
 - Term in months
-- Commercial representative
+- Authenticated commercial representative, displayed as read-only
 - A clearly visible register/submit button
 
 The form must validate required fields and valid values before submission. Display loading, success, and error states. Backend validation remains authoritative; frontend validation must not be treated as a security boundary.
+
+The commercial representative is the logged-in user. Do not allow the user to freely edit or select the commercial identity for a registration, and do not send an independently trusted commercial value when the backend derives it from authentication.
+
+Money values must be numeric integer values internally, without decimal fractions. For example, store and send `300000`, not `"300.000"`. Format money only when rendering it to users, using the Spanish Colombian locale where appropriate, such as `300.000` or `$300.000`.
 
 After a successful registration, the frontend must not send email directly. Email delivery is a backend responsibility and occurs asynchronously.
 
@@ -66,14 +71,15 @@ Filtering and sorting must be performed server-side through the backend API. Sen
 
 ## UX, Accessibility, and Security
 
+- Display the complete user interface in Spanish, including labels, buttons, validation messages, errors, empty states, loading states, notifications, and accessibility text.
 - Support desktop and mobile screen sizes.
 - Use semantic HTML, associated labels, keyboard-accessible controls, and useful focus states.
 - Make validation messages specific and accessible.
-- Format currency, percentages, dates, and numbers consistently.
+- Format currency, percentages, dates, and numbers consistently using locale-aware Spanish formatting.
 - Prevent duplicate submissions while a request is in progress.
 - Display API failures without exposing sensitive implementation details.
 - Escape and safely render user-provided values.
-- Treat all client-side data as untrusted and rely on the backend for authorization and security enforcement.
+- Treat all client-side data as untrusted and rely on the backend for authentication, authorization, and security enforcement.
 
 ## Capacitor and Android Delivery
 
