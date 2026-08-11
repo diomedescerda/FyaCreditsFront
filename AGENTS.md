@@ -12,6 +12,65 @@ This repository contains the frontend for the credit-management technical test.
 
 Keep frontend implementation in this repository. Backend implementation and infrastructure belong to their respective project repository.
 
+## Design System
+
+### Typography
+
+Use this system font stack for all text; do not add custom web fonts:
+
+```css
+-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+```
+
+- Body text: `gray-700` (`#374151`)
+- Muted and secondary text: `gray-500` (`#6B7280`)
+
+### Color Palette
+
+#### Brand
+
+| Token | Hex | Usage |
+|---|---|---|
+| `brand-primary` | `#00D280` | Primary CTAs, accents, highlights, active states |
+| `brand-dark` | `#052224` | Dark sections, dark backgrounds, high-contrast brand accents |
+| `whatsapp` | `#25D366` | WhatsApp/chat button only; do not reuse for general UI |
+
+#### Neutrals
+
+| Token | Hex | Usage |
+|---|---|---|
+| `gray-900` | `#000000` | Pure black; use sparingly for high-emphasis text |
+| `gray-700` | `#374151` | Primary body text |
+| `gray-600` | `#4B5563` | Secondary text |
+| `gray-500` | `#6B7280` | Muted text and placeholders |
+| `gray-400` | `#9CA3AF` | Disabled text and subtle icons |
+| `gray-300` | `#D1D5DB` | Borders and dividers |
+| `gray-200` | `#E5E7EB` | Light borders and hover backgrounds |
+| `gray-100` | `#F3F4F6` | Section backgrounds and card fills |
+| `white` | `#FFFFFF` | Base background and card surfaces |
+
+#### Feedback
+
+| Token | Hex | Usage |
+|---|---|---|
+| `error` | `#EF4444` | Form validation errors and destructive actions |
+
+Reserve `brand-primary` for primary buttons, active navigation, key highlights, and important number accents. Use `brand-dark` for dark UI moments. Keep `whatsapp` isolated to WhatsApp-style chat affordances. Use `brand-primary` for success states unless a distinct accessible success color is later required.
+
+### Styling Rules
+
+- Define the palette as reusable CSS custom properties or the project's equivalent design tokens.
+- Prefer shared components and tokens over one-off colors, spacing, and typography values.
+- Maintain sufficient contrast for text, controls, focus states, and feedback messages.
+- Keep the visual language consistent across the web UI and Capacitor Android build.
+- Do not introduce gradients, colors, fonts, or visual styles outside this system without a documented design reason.
+
+### Brand Assets
+
+- Store the Fya logo at `public/assets/brand/logo-fya.png`.
+- Reference the logo through the application asset path rather than duplicating the file in feature folders.
+- Preserve the logo's aspect ratio and provide meaningful alternative text when it conveys information.
+
 ## Functional Requirements
 
 The frontend must provide a clear, functional, and responsive UI for:
