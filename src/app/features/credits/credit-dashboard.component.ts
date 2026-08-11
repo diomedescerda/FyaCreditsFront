@@ -1,13 +1,22 @@
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/auth/auth.service';
 import { CreditsApiService } from '../../core/api/credits-api.service';
 import { Credit, PagedResult } from '../../core/models/credit.model';
+import { MoneyInputComponent } from '../../shared/money-input/money-input.component';
+import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 
 @Component({
   selector: 'app-credit-dashboard',
-  imports: [CurrencyPipe, DatePipe, DecimalPipe, ReactiveFormsModule],
+  imports: [
+    CurrencyPipe,
+    DatePipe,
+    DecimalPipe,
+    ReactiveFormsModule,
+    MoneyInputComponent,
+    ScrollRevealDirective,
+  ],
   templateUrl: './credit-dashboard.component.html',
   styleUrl: './credit-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +53,17 @@ export class CreditDashboardComponent {
   readonly message = signal('');
   readonly error = signal('');
   readonly loginError = signal('');
+  readonly selectedCredit = signal<Credit | null>(null);
   readonly pageSize = 20;
+
+  @HostListener('document:keydown.escape')
+  closeDetails(): void {
+    this.selectedCredit.set(null);
+  }
+
+  openDetails(credit: Credit): void {
+    this.selectedCredit.set(credit);
+  }
 
   login() {
     this.loginError.set('');
