@@ -132,8 +132,8 @@
                 <tr>
                   <th>Cliente</th>
                   <th>Valor</th>
-                  <th class="col-plazo">Plazo</th>
                   <th class="col-tasa">Tasa</th>
+                  <th class="col-plazo">Plazo</th>
                   <th class="col-comercial">Comercial</th>
                   <th class="col-fecha">Fecha</th>
                   <th><span class="visually-hidden">Detalles</span></th>
@@ -144,8 +144,8 @@
                   <tr [style.animation-delay]="($index * 30) + 'ms'">
                     <td><strong>{{ credit.clientName }}</strong><small>ID {{ credit.clientId }}</small></td>
                     <td class="amount">{{ credit.amount | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
-                    <td class="col-plazo">{{ credit.termMonths }} meses</td>
                     <td class="col-tasa">{{ credit.interestRate | number: '1.0-2' : 'es-CO' }}%</td>
+                    <td class="col-plazo">{{ credit.termMonths }} meses</td>
                     <td class="col-comercial">{{ credit.commercialName }}</td>
                     <td class="col-fecha">{{ credit.registeredAtUtc | date: 'dd MMM yyyy' : 'UTC' : 'es-CO' }}</td>
                     <td>
