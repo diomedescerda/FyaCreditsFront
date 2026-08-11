@@ -45,6 +45,8 @@ Provide a table containing all registered credits with:
 
 Support filtering by client name, client ID, and commercial representative. Support sorting by registration date and credit amount. Handle loading, empty, error, and populated states clearly.
 
+Filtering and sorting must be performed server-side through the backend API. Send the active filters and sort settings as API query parameters instead of loading all credits and processing the complete dataset in the frontend. If the API supports pagination, use it and refresh the results whenever filters or sort settings change.
+
 ## Angular Practices
 
 - Use standalone components and provider-based application configuration.
