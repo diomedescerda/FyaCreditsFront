@@ -67,22 +67,37 @@
             <label>
               Nombre del cliente
               <input formControlName="clientName" />
+              @if (creditError('clientName')) {
+                <span class="field-error">{{ creditError('clientName') }}</span>
+              }
             </label>
             <label>
               Cédula o ID
               <input formControlName="clientId" />
+              @if (creditError('clientId')) {
+                <span class="field-error">{{ creditError('clientId') }}</span>
+              }
             </label>
             <label>
               Valor del crédito
               <app-money-input formControlName="amount" />
+              @if (creditError('amount')) {
+                <span class="field-error">{{ creditError('amount') }}</span>
+              }
             </label>
             <label>
               Tasa de interés (%)
               <input formControlName="interestRate" type="number" min="0" max="100" step="0.01" />
+              @if (creditError('interestRate')) {
+                <span class="field-error">{{ creditError('interestRate') }}</span>
+              }
             </label>
             <label>
               Plazo en meses
               <input formControlName="termMonths" type="number" min="1" max="600" />
+              @if (creditError('termMonths')) {
+                <span class="field-error">{{ creditError('termMonths') }}</span>
+              }
             </label>
             <label>
               Comercial que registra

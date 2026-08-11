@@ -183,4 +183,30 @@ export class CreditDashboardComponent implements OnDestroy {
     const control = this.creditForm.get(fieldName);
     return control?.invalid && control.touched;
   }
+
+  creditError(fieldName: 'clientName' | 'clientId' | 'amount' | 'interestRate' | 'termMonths'): string {
+    const control = this.creditForm.get(fieldName);
+    if (!control || !control.errors || !control.touched) return '';
+
+    if (control.errors['required']) {
+      return fieldName === 'clientId'
+        ? 'La cédula o ID es obligatoria.'
+        : fieldName === 'clientName'
+          ? 'El nombre del cliente es obligatorio.'
+          : 'Este campo es obligatorio.';
+    }
+    if (control.errors['maxlength']) {
+      return fieldName === 'clientName' ? 'Máximo 150 caracteres.' : 'Máximo 50 caracteres.';
+    }
+    if (fieldName === 'amount' && control.errors['min']) {
+      return 'El valor debe ser mayor que cero.';
+    }
+    if (fieldName === 'interestRate') {
+      return 'La tasa debe estar entre 0 y 100.';
+    }
+    if (fieldName === 'termMonths') {
+      return 'El plazo debe estar entre 1 y 600 meses.';
+    }
+    return 'Valor no válido.';
+  }
 }

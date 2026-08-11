@@ -455,8 +455,9 @@ tbody tr {
 }
 
 .field-error {
+  display: block;
   font-size: 0.78rem;
-  margin-top: -10px;
+  font-weight: 500;
 }
 
 .logo-transition {
