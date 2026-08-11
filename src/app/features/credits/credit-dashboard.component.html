@@ -110,9 +110,9 @@
           <span class="count">{{ totalCount() }} resultados</span>
         </div>
         <form class="filters" [formGroup]="filterForm" (ngSubmit)="applyFilters()">
-          <input formControlName="clientName" placeholder="Buscar por cliente" aria-label="Buscar por cliente" />
-          <input formControlName="clientId" placeholder="Buscar por ID" aria-label="Buscar por ID" />
-          <input formControlName="commercialName" placeholder="Buscar por comercial" aria-label="Buscar por comercial" />
+          <input formControlName="clientName" placeholder="Buscar cliente" aria-label="Buscar por cliente" />
+          <input formControlName="clientId" placeholder="Buscar ID" aria-label="Buscar por ID" />
+          <input formControlName="commercialName" placeholder="Buscar comercial" aria-label="Buscar por comercial" />
           <select formControlName="sortBy" aria-label="Ordenar por">
             <option value="date">Fecha</option>
             <option value="amount">Valor</option>
