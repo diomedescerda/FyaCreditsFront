@@ -11,7 +11,13 @@
     }
   </header>
 
-  @if (!auth.token()) {
+  @if (transitioning()) {
+    <div class="logo-transition" [class.leaving]="leaving()" aria-hidden="true">
+      <div class="logo-burst">
+        <img src="assets/brand/logo-fya.png" alt="" />
+      </div>
+    </div>
+  } @else if (!auth.token()) {
     <section class="login-card" aria-labelledby="login-title">
       <div class="eyebrow">Gestión de créditos</div>
       <h1 id="login-title">Ingresa a tu espacio comercial</h1>

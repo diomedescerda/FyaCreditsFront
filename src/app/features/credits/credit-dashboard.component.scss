@@ -457,6 +457,102 @@ tbody tr {
   margin-top: -10px;
 }
 
+.logo-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 42%, rgb(0 210 128 / 32%) 0, rgb(0 210 128 / 0%) 62%),
+    linear-gradient(126deg, #052224 0%, #073b39 48%, #00a968 100%);
+  animation: transition-in 0.3s ease both;
+}
+
+.logo-transition.leaving {
+  animation: transition-out 0.4s ease both;
+}
+
+.logo-burst {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.logo-burst img {
+  width: clamp(220px, 40vw, 360px);
+  height: auto;
+  animation: logo-stamp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  filter: brightness(0) invert(1) drop-shadow(0 0 34px rgb(0 210 128 / 55%));
+}
+
+.logo-burst::before,
+.logo-burst::after {
+  content: '';
+  position: absolute;
+  inset: -46px;
+  border-radius: 50%;
+  border: 2px solid rgb(0 210 128 / 65%);
+  animation: ring-ping 1.2s ease-out infinite;
+}
+
+.logo-burst::after {
+  animation-delay: 0.4s;
+}
+
+.logo-transition.leaving .logo-burst {
+  animation: burst-zoom 0.4s ease both;
+}
+
+@keyframes transition-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes transition-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes logo-stamp {
+  0% {
+    transform: scale(0.55);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes ring-ping {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+
+@keyframes burst-zoom {
+  to {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;

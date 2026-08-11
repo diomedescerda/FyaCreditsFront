@@ -1,5 +1,12 @@
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  inject,
+  OnDestroy,
+  signal,
+} from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/auth/auth.service';
 import { CreditsApiService } from '../../core/api/credits-api.service';
@@ -21,7 +28,7 @@ import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.
   styleUrl: './credit-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreditDashboardComponent {
+export class CreditDashboardComponent implements OnDestroy {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly creditsApi = inject(CreditsApiService);
   readonly auth = inject(AuthService);
@@ -54,11 +61,33 @@ export class CreditDashboardComponent {
   readonly error = signal('');
   readonly loginError = signal('');
   readonly selectedCredit = signal<Credit | null>(null);
+  readonly transitioning = signal(false);
+  readonly leaving = signal(false);
   readonly pageSize = 20;
+  private readonly timers: ReturnType<typeof setTimeout>[] = [];
+
+  ngOnDestroy(): void {
+    this.timers.forEach(clearTimeout);
+  }
 
   @HostListener('document:keydown.escape')
   closeDetails(): void {
     this.selectedCredit.set(null);
+  }
+
+  private after(delayMs: number, action: () => void): void {
+    this.timers.push(setTimeout(action, delayMs));
+  }
+
+  private runLoginTransition(): void {
+    this.transitioning.set(true);
+    this.leaving.set(false);
+    this.after(600, () => this.leaving.set(true));
+    this.after(1000, () => {
+      this.transitioning.set(false);
+      this.leaving.set(false);
+      this.loadCredits();
+    });
   }
 
   openDetails(credit: Credit): void {
@@ -74,7 +103,7 @@ export class CreditDashboardComponent {
 
     const { commercialName, password } = this.loginForm.getRawValue();
     this.auth.login(commercialName, password).subscribe({
-      next: () => this.loadCredits(),
+      next: () => this.runLoginTransition(),
       error: () => this.loginError.set('No fue posible iniciar sesión. Verifica tus datos.'),
     });
   }
