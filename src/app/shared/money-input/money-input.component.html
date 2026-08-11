@@ -1,0 +1,12 @@
+<input
+  class="money-input"
+  type="text"
+  inputmode="numeric"
+  autocomplete="off"
+  placeholder="0"
+  aria-label="Valor del crédito"
+  [value]="displayValue()"
+  [disabled]="disabled()"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+/>

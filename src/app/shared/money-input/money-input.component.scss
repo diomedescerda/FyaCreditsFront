@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.money-input {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--gray-300);
+  border-radius: 10px;
+  color: var(--gray-700);
+  background: var(--white);
+  padding: 0 12px;
+  outline: none;
+  font: inherit;
+}
+
+.money-input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgb(0 210 128 / 16%);
+}
+
+.money-input:hover:not(:focus) {
+  border-color: rgb(0 210 128 / 58%);
+}
+
+.money-input:disabled {
+  color: var(--gray-500);
+  background: var(--gray-100);
+}
