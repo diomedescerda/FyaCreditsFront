@@ -11,10 +11,10 @@ Para usar la app localmente, cambia a la rama `dev` y sigue las instrucciones de
 
 ## Usar la app (backend desplegado)
 
-La app está configurada para conectarse a la API desplegada:
+La app está configurada para conectarse a la API desplegada (Azure):
 
 ```text
-https://fyacreditsback-1cde.onrender.com/api
+https://fya-credits-api-dkawb8byevc3befg.canadacentral-01.azurewebsites.net/api
 ```
 
 ### Iniciar sesión
@@ -41,12 +41,53 @@ La interfaz está en español y los valores monetarios se muestran en pesos colo
 
 ## Android (APK)
 
-Genera el APK de debug:
+La app se empaqueta para Android con Capacitor. El APK generado se conecta al backend desplegado.
 
-```bash
-npm run cap:sync
-cd android
-./gradlew assembleDebug
+### Dónde está el APK
+
+El APK de **debug** se genera en:
+
+```text
+android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-El APK resultante usa la API desplegada. Instálalo con `adb install -r app/build/outputs/apk/debug/app-debug.apk`.
+El APK de **release (firmado)** se genera en:
+
+```text
+android/app/build/outputs/apk/release/app-release.apk
+```
+
+### Requisitos para generar el APK
+
+- Node.js 24+ y npm
+- JDK 21 (por ejemplo, el incluido con Android Studio)
+- Android SDK con las plataformas y build-tools requeridos
+- Variables de entorno `JAVA_HOME` y `ANDROID_HOME` configuradas
+
+### Generar el APK
+
+1. Instala las dependencias y sincroniza los assets web con Capacitor:
+
+   ```bash
+   npm install
+   npm run cap:sync
+   ```
+
+2. Genera el APK de debug:
+
+   ```bash
+   cd android
+   ./gradlew assembleDebug
+   ```
+
+3. Instala el APK en un dispositivo Android conectado:
+
+   ```bash
+   adb install -r app/build/outputs/apk/debug/app-debug.apk
+   ```
+
+### Notas
+
+- El APK usa la API desplegada (Azure). La URL se configura en `src/app/core/config/environment.ts`.
+- Para probar la app con el backend **local**, usa la rama `dev` y vuelve a generar el APK.
+- El **APK es el entregable a probar**: instálalo en un dispositivo Android e inicia sesión con las credenciales semilla (`ana.comercial@fyasocialcapital.com` / `FyaDev123!`).
