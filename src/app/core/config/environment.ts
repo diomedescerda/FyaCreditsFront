@@ -1,3 +1,3 @@
 export const environment = {
-  apiBaseUrl: 'http://localhost:8080/api',
+  apiBaseUrl: 'https://fyacreditsback-1cde.onrender.com/api',
 };

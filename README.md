@@ -1,72 +1,52 @@
 # Fya Credits Frontend
 
-Angular `21.2.2` frontend for registering and consulting credits. The interface is in Spanish and is packaged for Android with Capacitor.
+Frontend de Angular `21.2.2` para registrar y consultar créditos, con interfaz en español y empaquetado para Android con Capacitor.
 
-## Requirements
+## Ramas
 
-- Node.js 24+
-- npm 11+
-- Angular CLI 21.2.2
-- JDK 21 LTS (the Android Gradle build does not currently support Java 26)
-- Android SDK with the platform and build tools required by the Capacitor project
-- A running backend API
+- **`main`**: la app apunta al **backend desplegado**.
+- **`dev`**: la app apunta al **backend local** (desarrollo).
 
-## Local Development
+Para usar la app localmente, cambia a la rama `dev` y sigue las instrucciones de su `README.md`.
 
-Install dependencies and start the development server:
+## Usar la app (backend desplegado)
 
-```bash
-npm install
-npm start
+La app está configurada para conectarse a la API desplegada:
+
+```text
+https://fyacreditsback-1cde.onrender.com/api
 ```
 
-The API base URL is configured in `src/app/core/config/environment.ts`. The default value is `http://localhost:8080/api`.
+### Iniciar sesión
 
-The backend development token flow uses the commercial name and password configured by the backend. The commercial is taken from the authenticated session and is not sent as an independently trusted registration field.
+Puedes entrar con la cuenta semilla:
 
-## Quality Checks
+- **Correo:** `ana.comercial@fyasocialcapital.com`
+- **Contraseña:** `FyaDev123!`
 
-```bash
-npm run build
-npm test -- --watch=false
-```
+O crear una cuenta nueva desde la pantalla de registro.
 
-Credit filtering and sorting are sent to the API as query parameters and are not performed over the complete dataset in the frontend.
+### Qué puedes probar
 
-## Capacitor Android
+- **Registrar un crédito**: nombre del cliente, cédula o ID, valor, tasa de interés (NM), plazo en meses. El comercial se toma del usuario que inició sesión.
+- **Consultar créditos**: tabla con los créditos registrados.
+- **Búsqueda unificada**: un solo campo para buscar por nombre del cliente, cédula o comercial.
+- **Ordenar** por fecha o valor del crédito.
+- **Paginación**: 15 registros por página, con botones Anterior/Siguiente.
+- **Ver detalles**: botón "Ver detalles" por crédito.
+- **Validaciones** de los formularios (mensajes en español).
+- **Recuperar contraseña**: solicítala desde la app; recibirás un correo con un enlace que abre la app para restablecerla.
 
-Configure the Android toolchain before building. Android Studio's bundled JDK 21 can be used:
+La interfaz está en español y los valores monetarios se muestran en pesos colombianos (COP).
 
-```bash
-export JAVA_HOME=/path/to/android-studio/jbr
-export ANDROID_HOME=/path/to/Android/Sdk
-export ANDROID_SDK_ROOT="$ANDROID_HOME"
-export PATH="$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$PATH"
-```
+## Android (APK)
 
-Build the web application and synchronize native assets:
+Genera el APK de debug:
 
 ```bash
 npm run cap:sync
-```
-
-Open the Android project in Android Studio:
-
-```bash
-npm run android:open
-```
-
-For an Android emulator, configure the API URL as `http://10.0.2.2:8080/api` so the emulator can reach an API running on the host machine. For a physical device, use the host machine's network IP or a deployed HTTPS API URL.
-
-Build a debug APK with Gradle:
-
-```bash
 cd android
 ./gradlew assembleDebug
 ```
 
-The debug artifact is written to `android/app/build/outputs/apk/debug/app-debug.apk`.
-
-Generate a release APK with `./gradlew assembleRelease`. The current release output is unsigned; configure a release keystore through private Gradle properties or environment variables before distributing it. The signed APK is the primary technical-test artifact; an `.aab` may be generated for store distribution.
-
-Never commit signing keys, passwords, API secrets, or environment-specific private configuration.
+El APK resultante usa la API desplegada. Instálalo con `adb install -r app/build/outputs/apk/debug/app-debug.apk`.
