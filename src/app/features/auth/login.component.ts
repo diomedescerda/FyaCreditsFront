@@ -39,9 +39,13 @@ export class LoginComponent {
         this.loading.set(false);
         this.playTransition();
       },
-      error: () => {
+      error: (err) => {
         this.loading.set(false);
-        this.error.set('Correo o contraseña incorrectos.');
+        this.error.set(
+          err.status === 423
+            ? 'Demasiados intentos fallidos. Cuenta bloqueada temporalmente, intenta en unos minutos.'
+            : 'Correo o contraseña incorrectos.',
+        );
       },
     });
   }
