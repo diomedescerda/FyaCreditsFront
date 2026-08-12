@@ -2,6 +2,40 @@
 
 Frontend de Angular `21.2.2` para registrar y consultar créditos, con interfaz en español y empaquetado para Android con Capacitor.
 
+## Requisitos
+
+### Sistema y herramientas
+
+- Node.js 24+ y npm 11+
+- Angular CLI 21.2.2
+- JDK 21 (necesario para generar el APK)
+- Android SDK con las plataformas y build-tools requeridos por el proyecto Capacitor
+
+### Variables de entorno del sistema (build de Android)
+
+Configura estas variables antes de generar el APK:
+
+```bash
+export JAVA_HOME=/ruta/al/jdk-21
+export ANDROID_HOME=/ruta/al/Android/Sdk
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export PATH="$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$PATH"
+```
+
+### Configuración de la app (variable principal)
+
+La app se configura con la URL de la API en `src/app/core/config/environment.ts`:
+
+```ts
+export const environment = {
+  apiBaseUrl: 'https://fya-credits-api-dkawb8byevc3befg.canadacentral-01.azurewebsites.net/api',
+};
+```
+
+- Si cambias `apiBaseUrl`, regenera el APK (`npm run cap:sync` + `./gradlew assembleDebug`).
+- En la rama **`main`** apunta al **backend desplegado (Azure)** — no hay que cambiar nada.
+- Para usar el **backend local**, cambia a la rama **`dev`** (ahí apunta a `http://localhost:8080/api`) y sigue las instrucciones de su `README.md`.
+
 ## Ramas
 
 - **`main`**: la app apunta al **backend desplegado**.
