@@ -144,11 +144,13 @@
               </tbody>
             </table>
           </div>
-          <div class="pagination">
-            <button class="button button-ghost" type="button" [disabled]="page() === 1" (click)="changePage(-1)">Anterior</button>
-            <span>Página {{ page() }} de {{ totalPages() }}</span>
-            <button class="button button-ghost" type="button" [disabled]="page() >= totalPages()" (click)="changePage(1)">Siguiente</button>
-          </div>
+          @if (totalPages() > 1) {
+            <div class="pagination">
+              <button class="button button-ghost" type="button" [disabled]="page() === 1" (click)="changePage(-1)">Anterior</button>
+              <span>Página {{ page() }} de {{ totalPages() }}</span>
+              <button class="button button-ghost" type="button" [disabled]="page() >= totalPages()" (click)="changePage(1)">Siguiente</button>
+            </div>
+          }
         }
       </article>
     </section>

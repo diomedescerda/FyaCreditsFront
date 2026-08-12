@@ -1,5 +1,12 @@
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
@@ -22,7 +29,10 @@ import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.
   styleUrl: './credit-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreditDashboardComponent {
+export class CreditDashboardComponent implements OnInit {
+  ngOnInit(): void {
+    this.loadCredits();
+  }
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly creditsApi = inject(CreditsApiService);
   private readonly router = inject(Router);
@@ -49,7 +59,7 @@ export class CreditDashboardComponent {
   readonly message = signal('');
   readonly error = signal('');
   readonly selectedCredit = signal<Credit | null>(null);
-  readonly pageSize = 20;
+  readonly pageSize = 15;
 
   @HostListener('document:keydown.escape')
   closeDetails(): void {
