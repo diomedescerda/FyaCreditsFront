@@ -91,7 +91,7 @@
           <span class="count">{{ totalCount() }} resultados</span>
         </div>
         <form class="filters" [formGroup]="filterForm" (ngSubmit)="applyFilters()">
-          <input formControlName="search" placeholder="Buscar por nombre, ID o comercial" aria-label="Buscar por nombre, ID o comercial" />
+          <input formControlName="search" placeholder="Buscar..." aria-label="Buscar por nombre, ID o comercial" />
           <p class="filter-hint">Puedes buscar por el nombre del cliente, su cédula o el comercial.</p>
           <select formControlName="sortBy" aria-label="Ordenar por">
             <option value="date">Fecha</option>
