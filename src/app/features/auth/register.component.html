@@ -1,0 +1,57 @@
+<main class="auth-shell">
+  <header class="auth-topbar">
+    <img class="logo-mark" src="assets/brand/logo-fya.png" alt="Fya Social Capital" />
+  </header>
+
+  <section class="auth-card" aria-labelledby="register-title">
+    <div class="eyebrow">Registro</div>
+    <h1 id="register-title">Crea tu cuenta comercial</h1>
+    <p class="muted">Forma parte del equipo Fya y registra créditos.</p>
+
+    <form [formGroup]="form" (ngSubmit)="register()" novalidate>
+      <label>
+        Nombre completo
+        <input formControlName="fullName" autocomplete="name" />
+        @if (form.controls.fullName.touched && form.controls.fullName.invalid) {
+          <span class="field-error">El nombre es obligatorio.</span>
+        }
+      </label>
+      <label>
+        Correo electrónico
+        <input formControlName="email" type="email" autocomplete="email" />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="field-error">Ingresa un correo válido.</span>
+        }
+      </label>
+      <label>
+        Contraseña
+        <input formControlName="password" type="password" autocomplete="new-password" />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="field-error">Mínimo 8 caracteres.</span>
+        }
+      </label>
+      <label>
+        Confirmar contraseña
+        <input formControlName="confirmPassword" type="password" autocomplete="new-password" />
+        @if (form.controls.confirmPassword.touched && form.errors?.['passwordsMismatch']) {
+          <span class="field-error">Las contraseñas no coinciden.</span>
+        }
+      </label>
+
+      @if (error()) {
+        <p class="alert-error" role="alert">{{ error() }}</p>
+      }
+      @if (success()) {
+        <p class="alert-success" role="status">{{ success() }}</p>
+      }
+
+      <button class="button button-primary full-width" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Creando cuenta...' : 'Crear cuenta' }}
+      </button>
+    </form>
+
+    <div class="auth-links">
+      <a routerLink="/login">Ya tengo cuenta</a>
+    </div>
+  </section>
+</main>

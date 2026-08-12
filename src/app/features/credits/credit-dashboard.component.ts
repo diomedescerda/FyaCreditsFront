@@ -1,13 +1,7 @@
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  inject,
-  OnDestroy,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 import { CreditsApiService } from '../../core/api/credits-api.service';
 import { Credit, PagedResult } from '../../core/models/credit.model';
@@ -28,15 +22,12 @@ import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.
   styleUrl: './credit-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreditDashboardComponent implements OnDestroy {
+export class CreditDashboardComponent {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly creditsApi = inject(CreditsApiService);
+  private readonly router = inject(Router);
   readonly auth = inject(AuthService);
 
-  readonly loginForm = this.formBuilder.group({
-    commercialName: ['', [Validators.required, Validators.maxLength(150)]],
-    password: ['', Validators.required],
-  });
   readonly creditForm = this.formBuilder.group({
     clientName: ['', [Validators.required, Validators.maxLength(150)]],
     clientId: ['', [Validators.required, Validators.maxLength(50)]],
@@ -59,59 +50,21 @@ export class CreditDashboardComponent implements OnDestroy {
   readonly submitting = signal(false);
   readonly message = signal('');
   readonly error = signal('');
-  readonly loginError = signal('');
   readonly selectedCredit = signal<Credit | null>(null);
-  readonly transitioning = signal(false);
-  readonly leaving = signal(false);
   readonly pageSize = 20;
-  private readonly timers: ReturnType<typeof setTimeout>[] = [];
-
-  ngOnDestroy(): void {
-    this.timers.forEach(clearTimeout);
-  }
 
   @HostListener('document:keydown.escape')
   closeDetails(): void {
     this.selectedCredit.set(null);
   }
 
-  private after(delayMs: number, action: () => void): void {
-    this.timers.push(setTimeout(action, delayMs));
-  }
-
-  private runLoginTransition(): void {
-    this.transitioning.set(true);
-    this.leaving.set(false);
-    this.after(600, () => this.leaving.set(true));
-    this.after(1000, () => {
-      this.transitioning.set(false);
-      this.leaving.set(false);
-      this.loadCredits();
-    });
-  }
-
   openDetails(credit: Credit): void {
     this.selectedCredit.set(credit);
   }
 
-  login() {
-    this.loginError.set('');
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    const { commercialName, password } = this.loginForm.getRawValue();
-    this.auth.login(commercialName, password).subscribe({
-      next: () => this.runLoginTransition(),
-      error: () => this.loginError.set('No fue posible iniciar sesión. Verifica tus datos.'),
-    });
-  }
-
-  logout() {
+  logout(): void {
     this.auth.logout();
-    this.credits.set([]);
-    this.totalCount.set(0);
+    this.router.navigate(['/login']);
   }
 
   registerCredit() {
@@ -172,16 +125,6 @@ export class CreditDashboardComponent implements OnDestroy {
 
   totalPages() {
     return Math.max(1, Math.ceil(this.totalCount() / this.pageSize));
-  }
-
-  hasFieldError(formName: 'loginForm' | 'creditForm', fieldName: string) {
-    if (formName === 'loginForm') {
-      const control = this.loginForm.get(fieldName);
-      return control?.invalid && control.touched;
-    }
-
-    const control = this.creditForm.get(fieldName);
-    return control?.invalid && control.touched;
   }
 
   creditError(fieldName: 'clientName' | 'clientId' | 'amount' | 'interestRate' | 'termMonths'): string {

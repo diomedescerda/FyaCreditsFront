@@ -1,49 +1,15 @@
-<main class="shell" [class.authenticated-shell]="auth.token()">
+<main class="shell authenticated-shell">
   <header class="topbar">
     <a class="brand" href="/" aria-label="Fya Social Capital">
       <img src="assets/brand/logo-fya.png" alt="Fya Social Capital" />
     </a>
-    @if (auth.token()) {
-      <div class="session">
-        <span>Hola, {{ auth.commercialName() }}</span>
-        <button class="button button-ghost" type="button" (click)="logout()">Cerrar sesión</button>
-      </div>
-    }
+    <div class="session">
+      <span>Hola, {{ auth.fullName() }}</span>
+      <button class="button button-ghost" type="button" (click)="logout()">Cerrar sesión</button>
+    </div>
   </header>
 
-  @if (transitioning()) {
-    <div class="logo-transition" [class.leaving]="leaving()" aria-hidden="true">
-      <div class="logo-burst">
-        <img src="assets/brand/logo-fya.png" alt="" />
-      </div>
-    </div>
-  } @else if (!auth.token()) {
-    <section class="login-card" aria-labelledby="login-title">
-      <div class="eyebrow">Gestión de créditos</div>
-      <h1 id="login-title">Ingresa a tu espacio comercial</h1>
-      <p class="muted">Registra y consulta los créditos de tus clientes.</p>
-      <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
-        <label>
-          Nombre del comercial
-          <input formControlName="commercialName" autocomplete="username" />
-        </label>
-        @if (hasFieldError('loginForm', 'commercialName')) {
-          <span class="field-error">El nombre del comercial es obligatorio.</span>
-        }
-        <label>
-          Contraseña
-          <input formControlName="password" type="password" autocomplete="current-password" />
-        </label>
-        @if (hasFieldError('loginForm', 'password')) {
-          <span class="field-error">La contraseña es obligatoria.</span>
-        }
-        @if (loginError()) {
-          <p class="alert alert-error" role="alert">{{ loginError() }}</p>
-        }
-        <button class="button button-primary full-width" type="submit">Iniciar sesión</button>
-      </form>
-    </section>
-  } @else {
+  @if (auth.token()) {
     <section class="hero" appScrollReveal>
       <div>
         <div class="eyebrow">Panel comercial</div>
@@ -60,7 +26,7 @@
             <div class="eyebrow">Nuevo registro</div>
             <h2>Registrar crédito</h2>
           </div>
-          <span class="user-chip">{{ auth.commercialName() }}</span>
+          <span class="user-chip">{{ auth.fullName() }}</span>
         </div>
         <form [formGroup]="creditForm" (ngSubmit)="registerCredit()" novalidate>
           <div class="form-grid">
@@ -101,7 +67,7 @@
             </label>
             <label>
               Comercial que registra
-              <input [value]="auth.commercialName()" readonly />
+              <input [value]="auth.fullName()" readonly />
             </label>
           </div>
           @if (message()) {

@@ -1,0 +1,49 @@
+<main class="auth-shell">
+  <header class="auth-topbar">
+    <img class="logo-mark" src="assets/brand/logo-fya.png" alt="Fya Social Capital" />
+  </header>
+
+  @if (transitioning()) {
+    <div class="logo-transition" [class.leaving]="leaving()" aria-hidden="true">
+      <div class="logo-burst">
+        <img src="assets/brand/logo-fya.png" alt="" />
+      </div>
+    </div>
+  } @else {
+    <section class="auth-card" aria-labelledby="login-title">
+      <div class="eyebrow">Gestión de créditos</div>
+      <h1 id="login-title">Ingresa a tu espacio comercial</h1>
+      <p class="muted">Registra y consulta los créditos de tus clientes.</p>
+
+      <form [formGroup]="form" (ngSubmit)="login()" novalidate>
+        <label>
+          Correo electrónico
+          <input formControlName="email" type="email" autocomplete="email" />
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <span class="field-error">Ingresa un correo válido.</span>
+          }
+        </label>
+        <label>
+          Contraseña
+          <input formControlName="password" type="password" autocomplete="current-password" />
+          @if (form.controls.password.touched && form.controls.password.invalid) {
+            <span class="field-error">La contraseña es obligatoria.</span>
+          }
+        </label>
+
+        @if (error()) {
+          <p class="alert-error" role="alert">{{ error() }}</p>
+        }
+
+        <button class="button button-primary full-width" type="submit" [disabled]="loading()">
+          {{ loading() ? 'Ingresando...' : 'Iniciar sesión' }}
+        </button>
+      </form>
+
+      <div class="auth-links">
+        <a routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>
+        <a routerLink="/register">Crear cuenta</a>
+      </div>
+    </section>
+  }
+</main>
