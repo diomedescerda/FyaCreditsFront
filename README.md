@@ -2,14 +2,39 @@
 
 Angular `21.2.2` frontend for registering and consulting credits. The interface is in Spanish and is packaged for Android with Capacitor.
 
-## Requirements
+## Requisitos
 
-- Node.js 24+
-- npm 11+
+### Sistema y herramientas
+
+- Node.js 24+ y npm 11+
 - Angular CLI 21.2.2
-- JDK 21 LTS (the Android Gradle build does not currently support Java 26)
-- Android SDK with the platform and build tools required by the Capacitor project
-- A running backend API
+- JDK 21 LTS (el build de Android Gradle no soporta Java 26 actualmente)
+- Android SDK con las plataformas y build-tools requeridos por el proyecto Capacitor
+- Un backend API en ejecución (local)
+
+### Variables de entorno del sistema (build de Android)
+
+Configura estas variables antes de generar el APK:
+
+```bash
+export JAVA_HOME=/ruta/al/jdk-21
+export ANDROID_HOME=/ruta/al/Android/Sdk
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export PATH="$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$PATH"
+```
+
+### Configuración de la app (variable principal)
+
+La app se configura con la URL de la API en `src/app/core/config/environment.ts`:
+
+```ts
+export const environment = {
+  apiBaseUrl: 'http://localhost:8080/api',
+};
+```
+
+- En la rama **`dev`** apunta al **backend local** (`http://localhost:8080/api`).
+- Para usar el **backend desplegado**, usa la rama **`main`** (indicado en su `README.md`).
 
 ## Local Development
 
