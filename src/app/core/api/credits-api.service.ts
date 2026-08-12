@@ -25,9 +25,7 @@ export class CreditsApiService {
       .set('page', query.page)
       .set('pageSize', query.pageSize);
 
-    if (query.clientName) params = params.set('clientName', query.clientName);
-    if (query.clientId) params = params.set('clientId', query.clientId);
-    if (query.commercialName) params = params.set('commercialName', query.commercialName);
+    if (query.search) params = params.set('search', query.search);
 
     return this.http.get<PagedResult<Credit>>(this.creditsUrl, { params });
   }

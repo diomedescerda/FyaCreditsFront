@@ -18,9 +18,7 @@ export interface Credit {
 }
 
 export interface CreditQuery {
-  clientName?: string;
-  clientId?: string;
-  commercialName?: string;
+  search?: string;
   sortBy: 'date' | 'amount';
   sortDirection: 'asc' | 'desc';
   page: number;

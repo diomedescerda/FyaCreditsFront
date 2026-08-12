@@ -36,9 +36,7 @@ export class CreditDashboardComponent {
     termMonths: [1, [Validators.required, Validators.min(1), Validators.max(600)]],
   });
   readonly filterForm = this.formBuilder.group({
-    clientName: [''],
-    clientId: [''],
-    commercialName: [''],
+    search: [''],
     sortBy: ['date' as 'date' | 'amount'],
     sortDirection: ['desc' as 'asc' | 'desc'],
   });
