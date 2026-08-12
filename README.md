@@ -43,6 +43,12 @@ La interfaz está en español y los valores monetarios se muestran en pesos colo
 
 La app se empaqueta para Android con Capacitor. El APK generado se conecta al backend desplegado.
 
+### Descargar el APK
+
+Descarga el APK de prueba (generado desde `main`, conectado al backend desplegado en Azure):
+
+[Descargar fya-credits.apk](https://github.com/diomedescerda/FyaCreditsFront/releases/download/1.0/fya-credits.apk)
+
 ### Dónde está el APK
 
 El APK de **debug** se genera en:
