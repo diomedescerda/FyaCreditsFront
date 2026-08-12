@@ -1,3 +1,3 @@
 export const environment = {
-  apiBaseUrl: 'https://fyacreditsback-1cde.onrender.com/api',
+  apiBaseUrl: 'https://fya-credits-api.azurewebsites.net/api',
 };
